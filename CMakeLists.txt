@@ -24,7 +24,7 @@ install(FILES KCPClient.h
     DESTINATION include ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-install(TARGETS kcp_aio kcp kcp-targets
+install(TARGETS kcp_aio kcp-targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     INCLUDES DESTINATION include ${CMAKE_INSTALL_INCLUDEDIR}
 )
