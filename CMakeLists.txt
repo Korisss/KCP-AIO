@@ -29,5 +29,10 @@ install(TARGETS kcp_aio
     INCLUDES DESTINATION include ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
+install(TARGETS kcp
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    INCLUDES DESTINATION include ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
 add_executable(kcp_aio_test main.cpp)
 target_link_libraries(kcp_aio_test kcp_aio)
