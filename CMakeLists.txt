@@ -20,6 +20,10 @@ add_library(kcp_aio KCPClient.h KCPClient.cpp)
 add_dependencies(kcp_aio kcp_lib)
 target_link_libraries(kcp_aio udp_client kcp)
 
+install(FILES KCPClient.h
+    DESTINATION include ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
 install(TARGETS kcp_aio
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
