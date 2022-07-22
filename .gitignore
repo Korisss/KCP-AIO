@@ -1,7 +1,6 @@
-./build
-./kcp
-./.vscode
-./.vs
+build
+.vscode
+.vs
 
 # Prerequisites
 *.d
