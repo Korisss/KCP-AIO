@@ -1,5 +1,5 @@
 #include "UDPClient.h"
-#include "kcp/ikcp.h"
+#include "ikcp.h"
 
 class KCPClient
 {
