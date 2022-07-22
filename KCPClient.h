@@ -1,29 +1,23 @@
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <stdint.h>
+#include "UDPClient.h"
 #include "kcp/ikcp.h"
 
 class KCPClient
 {
-private:
+public:
   KCPClient() = default;
   ~KCPClient() = default;
-  int output(const char *buffer, size_t length);
 
-  static KCPClient *dialIPv6(const char *ip, uint16_t port);
-  static KCPClient *create(SOCKET sockfd);
-  static int out(const char *buf, int len, struct IKCPCB *kcp, void *user);
+  static KCPClient *Dial(std::string ip, uint16_t port);
+  static int kcpSend(const char *buf, int len, ikcpcb *kcp, void *user);
+  static IUINT32 getTime();
 
-  SOCKET _sockfd{0};
-  ikcpcb *kcp{nullptr};
-  char buf[2048];
-
-public:
-  static KCPClient *Dial(const char *ip, uint16_t port); // need try catch
-  void Close();                                          // need try catch
-  int Read(char *buffer, size_t length);
-  int Write(const char *buffer, size_t length);
   void Update();
-};
+  void Close();
+  int Read(char *buf, int len);
+  int Write(const char *buf, int len);
 
-IUINT32 time();
+private:
+  ikcpcb *kcp;
+  UDPClient *udpClient;
+  char buf[2048];
+};

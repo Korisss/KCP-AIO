@@ -1,48 +1,38 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include <vector>
 #include "KCPClient.h"
 
-void main()
+int main()
 {
-  WSADATA wsaData;
-  WSAStartup(MAKEWORD(2, 2), &wsaData);
+  KCPClient *client = KCPClient::Dial("127.0.0.1", 10000);
 
-  try
+  char buf[2048];
+
+  std::string msg = "msg from client";
+
+  while (true)
   {
-    KCPClient *client = KCPClient::Dial("127.0.0.1", 10000);
-    std::vector<char> buf;
-    buf.reserve(2048);
-    buf.resize(1);
+    client->Write(msg.data(), int(msg.length()));
+    std::cout << "Message sent: " + msg + "\n";
 
-    std::cout << "CONNECT!\n";
+    client->Update();
 
-    for (int i = 0; i < 10; i++)
+    int n = 0;
+    do
     {
-      client->Write(&buf[0], buf.size());
-      client->Update();
-
-      buf.clear();
-
-      int n = 0;
-
-      std::cout << "SENT!\n";
-
-      do
+      n = client->Read(buf, 2048);
+      if (n > 0)
       {
-        n = client->Read(&buf[0], 128);
-        client->Update();
-      } while (n <= 0);
+        std::cout << "Received message: " + std::string(buf, n) + "\n";
+      }
 
-      std::cout << "GET PACKET!!!!\n";
-      std::cout << std::string(buf.begin(), buf.end());
-      std::cout << "\n";
-      std::cout << n;
-      std::cout << "\n";
-    }
+      std::this_thread::sleep_for(std::chrono::milliseconds(16));
+
+      client->Update();
+    } while (n == 0);
   }
-  catch (std::exception e)
-  {
-    std::cout << "EXCEPTION!\n";
-    std::cout << e.what();
-  }
+
+  return 0;
 }
