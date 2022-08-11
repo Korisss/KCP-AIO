@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(kcp_aio)
 
 include(ExternalProject)
+include(GNUInstallDirs)
 
 set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external)
 
@@ -20,7 +21,6 @@ add_library(kcp_aio KCPClient.h KCPClient.cpp)
 add_dependencies(kcp_aio kcp_lib)
 target_link_libraries(kcp_aio udp_client kcp)
 
-message(STATUS "Install directory: ${CMAKE_INSTALL_INCLUDEDIR}")
 install(FILES UDPClient.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(TARGETS udp_client
