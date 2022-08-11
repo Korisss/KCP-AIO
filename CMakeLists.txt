@@ -21,6 +21,7 @@ add_library(kcp_aio KCPClient.h KCPClient.cpp)
 add_dependencies(kcp_aio kcp_lib)
 target_link_libraries(kcp_aio udp_client kcp)
 
+install(DIRECTORY ${EXTERNAL_INSTALL_LOCATION}/include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES UDPClient.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(TARGETS udp_client
