@@ -22,5 +22,17 @@ target_link_libraries(kcp_aio udp_client kcp)
 
 # TODO: add install() functionality
 
+install(TARGETS kcp_aio
+    EXPORT kcp_aio_targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(EXPORT kcp_aio_targets
+    FILE kcp-aio-config.cmake
+    NAMESPACE kcp_aio::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kcp_aio
+)
+
 add_executable(kcp_aio_test main.cpp)
 target_link_libraries(kcp_aio_test kcp_aio)
