@@ -16,6 +16,8 @@ public:
   int Read(char *buf, int len);
   int Write(const char *buf, int len);
 
+  int GetLastNetworkingError();
+
 private:
   ikcpcb *kcp;
   UDPClient *udpClient;

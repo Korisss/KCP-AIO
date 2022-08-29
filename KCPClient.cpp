@@ -65,3 +65,8 @@ int KCPClient::Write(const char *buf, int len)
 {
   return ikcp_send(this->kcp, buf, len);
 }
+
+int KCPClient::GetLastNetworkingError()
+{
+  return this->udpClient->GetLastNetworkingError();
+}

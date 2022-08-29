@@ -84,3 +84,8 @@ void UDPClient::SetNonBlocking(bool nonBlocking)
   u_long nonBlockingEnabled = nonBlocking ? TRUE : FALSE;
   int error = ioctlsocket(this->sock, FIONBIO, &nonBlockingEnabled);
 }
+
+int UDPClient::GetLastNetworkingError()
+{
+  return WSAGetLastError();
+}

@@ -15,6 +15,8 @@ public:
   void Close();
   void SetNonBlocking(bool nonBlocking);
 
+  int GetLastNetworkingError();
+
 private:
   sockaddr_in addr;
   SOCKET sock;
