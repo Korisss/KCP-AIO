@@ -4,9 +4,7 @@ project(kcp_aio)
 include(ExternalProject)
 include(GNUInstallDirs)
 
-set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external)
-
-ExternalProject_Add(kcp_lib
+ExternalProject_Add(kcp-lib
     GIT_REPOSITORY https://github.com/skywind3000/kcp
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
 )
@@ -14,14 +12,20 @@ ExternalProject_Add(kcp_lib
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 
-add_library(udp_client UDPClient.h UDPClient.cpp)
-target_link_libraries(udp_client wsock32 ws2_32)
+add_library(udp-client UDPClient.h UDPClient.cpp)
+target_link_libraries(udp-client wsock32 ws2_32)
 
-add_library(kcp_aio KCPClient.h KCPClient.cpp)
-add_dependencies(kcp_aio kcp_lib)
-target_link_libraries(kcp_aio udp_client kcp)
+add_library(kcp-aio KCPClient.h KCPClient.cpp)
+add_dependencies(kcp-aio kcp-lib)
+target_link_libraries(kcp-aio udp-client kcp)
 
-export(PACKAGE kcp_aio)
+add_executable(kcp-aio-test main.cpp)
+target_link_libraries(kcp-aio-test kcp-aio)
 
-add_executable(kcp_aio_test main.cpp)
-target_link_libraries(kcp_aio_test kcp_aio)
+install(FILES UDPClient.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(TARGETS udp-client DESTINATION ${CMAKE_INSTALL_LIBDIR} EXPORT find-udp-client)
+install(EXPORT find-udp-client DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/udp-client)
+
+install(FILES KCPClient.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(TARGETS kcp-aio DESTINATION ${CMAKE_INSTALL_LIBDIR} EXPORT find-kcp-aio)
+install(EXPORT find-kcp-aio DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/kcp-aio)
