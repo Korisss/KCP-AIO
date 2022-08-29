@@ -24,5 +24,8 @@ target_link_libraries(kcp-aio udp-client kcp)
 install(FILES KCPClient.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(TARGETS kcp-aio DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
+add_library(kcp-aio-shared SHARED KCPClient.h KCPClient.cpp)
+target_link_libraries(kcp-aio-shared udp-client kcp)
+
 add_executable(kcp-aio-test main.cpp)
 target_link_libraries(kcp-aio-test kcp-aio)
